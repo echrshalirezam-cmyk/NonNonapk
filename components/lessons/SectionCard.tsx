@@ -15,7 +15,9 @@ type SectionCardProps = {
 
 export function SectionCard({ section, completedLessons, onLessonPress }: SectionCardProps) {
   const doneCount = section.lessons.filter((lesson) => completedLessons.includes(lesson.id)).length;
-  const sectionLocked = section.lessons.length > 0 && getLessonStatus(section.lessons[0].id, completedLessons) === 'locked';
+  const sectionLocked =
+    section.lessons.length > 0 &&
+    getLessonStatus(section.lessons[0].id, completedLessons) === 'locked';
 
   return (
     <GlowCard style={styles.card}>
@@ -23,19 +25,29 @@ export function SectionCard({ section, completedLessons, onLessonPress }: Sectio
         <Text style={[styles.title, { fontFamily: fontForText(section.title, 'bold') }]}>
           {`بخش ${section.index}: ${section.title}`}
         </Text>
-        {sectionLocked ? <Lock size={18} color={semanticColors.textMuted} /> : <Text style={styles.count}>{`${doneCount} از ${section.lessons.length}`}</Text>}
+        {sectionLocked ? (
+          <Lock size={18} color={semanticColors.textMuted} />
+        ) : (
+          <Text style={styles.count}>{`${doneCount} از ${section.lessons.length}`}</Text>
+        )}
       </View>
-      <View style={styles.list}>
-        {section.lessons.map((lesson, position) => (
-          <LessonRow
-            key={lesson.id}
-            label={`${section.index}.${position + 1}`}
-            lesson={lesson}
-            status={getLessonStatus(lesson.id, completedLessons)}
-            onPress={() => onLessonPress(lesson.id)}
-          />
-        ))}
-      </View>
+      {sectionLocked ? (
+        <Text style={styles.lockedDescription}>
+          برای باز شدن این بخش، تمام درس‌های بخش قبلی را کامل کنید.
+        </Text>
+      ) : (
+        <View style={styles.list}>
+          {section.lessons.map((lesson, position) => (
+            <LessonRow
+              key={lesson.id}
+              label={`${section.index}.${position + 1}`}
+              lesson={lesson}
+              status={getLessonStatus(lesson.id, completedLessons)}
+              onPress={() => onLessonPress(lesson.id)}
+            />
+          ))}
+        </View>
+      )}
     </GlowCard>
   );
 }
@@ -60,7 +72,13 @@ const styles = StyleSheet.create({
     ...typography.label,
     color: semanticColors.textSecondary,
   },
-  lockedDescription: {\n    ...typography.caption,\n    color: semanticColors.textMuted,\n    textAlign: 'right',\n    paddingVertical: spacing.xs,\n  },\n  list: {
+  lockedDescription: {
+    ...typography.caption,
+    color: semanticColors.textMuted,
+    textAlign: 'right',
+    paddingVertical: spacing.xs,
+  },
+  list: {
     gap: spacing.xs,
   },
 });
