@@ -92,10 +92,9 @@ function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Top
   const grammarInfo=grammarByLevel[level];
   const offset=sectionNo*5+lessonNo;
   const q1=makeOptions(first.fa,[second.fa,third.fa,fourth.fa],offset);
-  const q2=makeOptions(grammarInfo.frames[1][0],[grammarInfo.frames[0][0],'She are ready.','We going travel next week.'],offset+1);
+  const audioChoices=makeOptions(first.fa,[second.fa,third.fa,fourth.fa],offset+1);
   const q3=makeOptions(second.en,[first.en,third.en,fourth.en],offset+2);
   const q4=makeOptions(grammarInfo.frames[0][0],['She are ready.','I no understand this.','They is working.'],offset+3);
-  const q5=makeOptions(third.fa,[first.fa,fourth.fa,fifth.fa],offset+2);
   const translation=makeOptions(grammarInfo.frames[0][0],[grammarInfo.frames[1][0],'I no understand this.','They is working.'],offset+1);
   const pairs:[string,string][] = words.slice(0,4).map(item=>[item.en,item.fa]);
   return {
@@ -105,7 +104,7 @@ function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Top
     grammar:grammar(grammarInfo.title,grammarInfo.rule,grammarInfo.frames),
     exercises:[
       choice(`کدام گزینه معنی «${first.en}» است؟`,q1.choices,q1.answer),
-      listen([first.fa,second.fa,third.fa,fourth.fa],0,first.en),
+      listen(audioChoices.choices,audioChoices.answer,first.en),
       choice(`معنی انگلیسی «${second.fa}» کدام است؟`,q3.choices,q3.answer),
       choice(`کدام جمله از نظر گرامری درست است؟`,q4.choices,q4.answer),
       translate(grammarInfo.frames[0][1],translation.choices,translation.answer),
