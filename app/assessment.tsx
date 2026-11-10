@@ -20,7 +20,14 @@ type AssessmentRecord = { id: string; date: string; mode: Mode; score: number; t
 const HISTORY_LIMIT = 50;
 const QUESTION_COUNT = 12;
 const randomItem = <T,>(items: T[]): T => items[Math.floor(Math.random() * items.length)];
-const shuffled = <T,>(items: T[]): T[] => [...items].sort(() => Math.random() - 0.5);
+const shuffled = <T,>(items: T[]): T[] => {
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+  }
+  return result;
+};
 
 function wordsForLevel(level: CefrCode): Word[] {
   const seen = new Set<string>();
@@ -45,14 +52,15 @@ function makeQuestion(level: CefrCode): Question | null {
   }));
   if (exercisePool.length && Math.random() < 0.4) {
     const item = randomItem(exercisePool);
+    const choices = shuffled(item.exercise.choices);
     return {
       id: item.lessonTitle + ':' + Math.random().toString(36).slice(2),
       level,
       prompt: item.exercise.prompt,
       display: item.lessonTitle,
       helper: 'تمرین جمله و گرامر',
-      choices: item.exercise.choices,
-      answer: item.exercise.answer,
+      choices,
+      answer: choices.indexOf(item.exercise.choices[item.exercise.answer]),
       reviewKey: item.lessonTitle + ' — ' + item.exercise.prompt,
     };
   }
