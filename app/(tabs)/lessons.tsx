@@ -11,7 +11,7 @@ import { ListRow } from '@/components/ui/ListRow';
 import { SectionCard } from '@/components/lessons/SectionCard';
 import { GlowCard } from '@/components/ui/GlowCard';
 import { useProfiles } from '@/context/ProfileContext';
-import { getSections } from '@/content/lessons';
+import { getSections, orderedLessons } from '@/content/lessons';
 import { getLevelProgress } from '@/utils/lessonProgress';
 import { openMistakeWordIds } from '@/utils/mistakeReview';
 
@@ -19,7 +19,9 @@ export default function LessonsScreen() {
   const { activeProfile } = useProfiles();
   if (!activeProfile) return null;
 
-  const { learningLevel, completedLessons } = activeProfile.progress;
+  const { learningLevel: savedLearningLevel, completedLessons } = activeProfile.progress;
+  const nextLesson = orderedLessons.find((entry) => !completedLessons.includes(entry.lesson.id));
+  const learningLevel = nextLesson?.level ?? savedLearningLevel;
   const levelInfo = cefrLevelByCode[learningLevel];
   const sections = getSections(learningLevel);
   const { done, total } = getLevelProgress(learningLevel, completedLessons);
