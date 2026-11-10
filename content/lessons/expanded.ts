@@ -76,7 +76,6 @@ C1:{title:'وارونگی و وجه‌نمایی دقیق',rule:'برای تأک
 C2:{title:'ظرافت نحوی و انسجام گفتمان',rule:'در سطح پیشرفته، ساختار جمله را متناسب با هدف بلاغی انتخاب کنید؛ حذف، وارونگی و بندهای وابسته باید معنا و لحن را دقیق‌تر کنند.',frames:[['Were it not for the evidence, the claim would fail.','اگر شواهد نبود، ادعا شکست می‌خورد.'],['What matters is not the claim itself but its implications.','آنچه اهمیت دارد خود ادعا نیست، بلکه پیامدهای آن است.']]}
 };
 
-const sectionNames = ['واژگان و کاربرد','گفت‌وگو و موقعیت','درک مطلب و بیان','گرامر در عمل','مرور و تسلط'];
 function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Topic):Lesson {
   const start = lessonNo===1 ? 0 : 5;
   const words:Word[] = topic.words.slice(start,start+5).map(([en,fa,ipa])=>w(en,fa,ipa));
