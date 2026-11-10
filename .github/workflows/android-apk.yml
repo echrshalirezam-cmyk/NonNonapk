@@ -1,0 +1,70 @@
+name: Build NonNon Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/android-apk.yml'
+      - 'app.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'app/**'
+      - 'assets/**'
+      - 'components/**'
+      - 'constants/**'
+      - 'content/**'
+      - 'context/**'
+      - 'hooks/**'
+      - 'storage/**'
+      - 'types/**'
+      - 'utils/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    name: Build release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Generate Android native project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build release APK
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NonNon-Android-APK
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 14
