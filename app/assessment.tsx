@@ -38,9 +38,11 @@ const allWords = cefrCodes.flatMap(wordsForLevel);
 function makeQuestion(level: CefrCode): Question | null {
   const entries = orderedLessons.filter((entry) => entry.level === level);
   const pool = wordsForLevel(level);
-  const exercisePool = entries.flatMap((entry) => entry.lesson.exercises
-    .filter((exercise) => (exercise.type === 'choice' || exercise.type === 'translation') && !('audio' in exercise && exercise.audio))
-    .map((exercise) => ({ exercise, lessonTitle: entry.lesson.title })));
+  const exercisePool = entries.flatMap((entry) => entry.lesson.exercises.flatMap((exercise) => {
+    if (exercise.type !== 'choice' && exercise.type !== 'translation') return [];
+    if (exercise.type === 'choice' && exercise.audio) return [];
+    return [{ exercise, lessonTitle: entry.lesson.title }];
+  }));
   if (exercisePool.length && Math.random() < 0.4) {
     const item = randomItem(exercisePool);
     return {
