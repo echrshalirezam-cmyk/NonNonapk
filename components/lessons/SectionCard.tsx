@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { Lock } from 'lucide-react-native';
 import { semanticColors, spacing, typography } from '@/constants/theme';
 import type { LessonSection } from '@/types/lesson';
 import { GlowCard } from '@/components/ui/GlowCard';
@@ -14,6 +15,7 @@ type SectionCardProps = {
 
 export function SectionCard({ section, completedLessons, onLessonPress }: SectionCardProps) {
   const doneCount = section.lessons.filter((lesson) => completedLessons.includes(lesson.id)).length;
+  const sectionLocked = section.lessons.length > 0 && getLessonStatus(section.lessons[0].id, completedLessons) === 'locked';
 
   return (
     <GlowCard style={styles.card}>
@@ -21,7 +23,7 @@ export function SectionCard({ section, completedLessons, onLessonPress }: Sectio
         <Text style={[styles.title, { fontFamily: fontForText(section.title, 'bold') }]}>
           {`بخش ${section.index}: ${section.title}`}
         </Text>
-        <Text style={styles.count}>{`${doneCount} از ${section.lessons.length}`}</Text>
+        {sectionLocked ? <Lock size={18} color={semanticColors.textMuted} /> : <Text style={styles.count}>{`${doneCount} از ${section.lessons.length}`}</Text>}
       </View>
       <View style={styles.list}>
         {section.lessons.map((lesson, position) => (
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     ...typography.label,
     color: semanticColors.textSecondary,
   },
-  list: {
+  lockedDescription: {\n    ...typography.caption,\n    color: semanticColors.textMuted,\n    textAlign: 'right',\n    paddingVertical: spacing.xs,\n  },\n  list: {
     gap: spacing.xs,
   },
 });
