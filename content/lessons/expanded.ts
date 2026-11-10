@@ -76,36 +76,40 @@ C1:{title:'وارونگی و وجه‌نمایی دقیق',rule:'برای تأک
 C2:{title:'ظرافت نحوی و انسجام گفتمان',rule:'در سطح پیشرفته، ساختار جمله را متناسب با هدف بلاغی انتخاب کنید؛ حذف، وارونگی و بندهای وابسته باید معنا و لحن را دقیق‌تر کنند.',frames:[['Were it not for the evidence, the claim would fail.','اگر شواهد نبود، ادعا شکست می‌خورد.'],['What matters is not the claim itself but its implications.','آنچه اهمیت دارد خود ادعا نیست، بلکه پیامدهای آن است.']]}
 };
 
+function makeOptions(correct:string, distractors:string[], offset:number): {choices:string[]; answer:number} {
+  const unique = [...new Set(distractors.filter((item)=>item!==correct))].slice(0,3);
+  while(unique.length<3) unique.push(['گزینه نامرتبط','پاسخ دیگر','نمونه نادرست'][unique.length]);
+  const answer = Math.abs(offset)%4;
+  const choices=[...unique];
+  choices.splice(answer,0,correct);
+  return {choices,answer};
+}
+
 function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Topic):Lesson {
   const start = (lessonNo - 1) * 2;
   const words:Word[] = Array.from({length:5},(_,offset)=>topic.words[(start+offset)%topic.words.length]).map(([en,fa,ipa])=>w(en,fa,ipa));
-  const first=words[0], second=words[1], third=words[2];
+  const [first,second,third,fourth,fifth]=words;
   const grammarInfo=grammarByLevel[level];
-  const prompts = [
-    `کدام گزینه معنی «${first.en}» است؟`,
-    `جای خالی را کامل کنید: ${grammarInfo.frames[0][0]}`,
-    `ترجمه درست «${second.fa}» کدام است؟`,
-    `در این درس، کدام واژه با موضوع «${topic.title}» مرتبط است؟`,
-    `کدام گزینه کاربرد درست واژه «${third.en}» را نشان می‌دهد؟`
-  ];
-  const choices = [
-    [first.fa, second.fa, third.fa, words[3].fa],
-    [grammarInfo.frames[0][0], grammarInfo.frames[1][0], 'Yesterday I will go.', 'She are ready.'],
-    [second.en, first.en, third.en, words[4].en],
-    [first.en, second.en, third.en, words[4].en],
-    [`We discussed ${third.en} in class.`, `We ${third.en} yesterday tomorrow.`, `A ${third.en} are quickly.`, `I am ${third.en} to yesterday.`]
-  ];
-  const corrects=[0,0,0,0,0];
+  const offset=sectionNo*5+lessonNo;
+  const q1=makeOptions(first.fa,[second.fa,third.fa,fourth.fa],offset);
+  const q2=makeOptions(grammarInfo.frames[1][0],[grammarInfo.frames[0][0],'She are ready.','We going travel next week.'],offset+1);
+  const q3=makeOptions(second.en,[first.en,third.en,fourth.en],offset+2);
+  const q4=makeOptions(grammarInfo.frames[0][0],['She are ready.','I no understand this.','They is working.'],offset+3);
+  const q5=makeOptions(third.fa,[first.fa,fourth.fa,fifth.fa],offset+2);
+  const translation=makeOptions(grammarInfo.frames[0][0],[grammarInfo.frames[1][0],'I no understand this.','They is working.'],offset+1);
+  const pairs:[string,string][] = words.slice(0,4).map(item=>[item.en,item.fa]);
   return {
     id:`${level}-${sectionNo}-${sectionNo}-${lessonNo}`,
     title:[`آشنایی با ${topic.title}`,`کاربرد واژه‌ها در ${topic.title}`,`مکالمه درباره ${topic.title}`,`ساخت جمله در ${topic.title}`,`جمع‌بندی ${topic.title}`][lessonNo-1],
     words,
     grammar:grammar(grammarInfo.title,grammarInfo.rule,grammarInfo.frames),
     exercises:[
-      choice(prompts[0],choices[0],corrects[0]),
-      listen([first.fa,second.fa,third.fa,words[3].fa],0,first.en),
-      translate(`${grammarInfo.frames[0][1]}`,[grammarInfo.frames[0][0],grammarInfo.frames[1][0],'I no understand this.','They is working.'],0),
-      matching(words.slice(0,4).map(item=>[item.en,item.fa])),
+      choice(`کدام گزینه معنی «${first.en}» است؟`,q1.choices,q1.answer),
+      listen([first.fa,second.fa,third.fa,fourth.fa],0,first.en),
+      choice(`معنی انگلیسی «${second.fa}» کدام است؟`,q3.choices,q3.answer),
+      choice(`کدام جمله از نظر گرامری درست است؟`,q4.choices,q4.answer),
+      translate(grammarInfo.frames[0][1],translation.choices,translation.answer),
+      matching(pairs),
       ordering(grammarInfo.frames[0][0],grammarInfo.frames[0][1])
     ]
   };
