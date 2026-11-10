@@ -1,5 +1,6 @@
 import { cefrCodes, type CefrCode } from '@/constants/levels';
 import { a1Sections } from '@/content/lessons/a1';
+import { expandedSectionsByLevel } from '@/content/lessons/expanded';
 import type { Lesson, LessonSection } from '@/types/lesson';
 
 export type LessonEntry = {
@@ -10,6 +11,7 @@ export type LessonEntry = {
 
 const sectionsByLevel: Partial<Record<CefrCode, LessonSection[]>> = {
   A1: a1Sections,
+  ...expandedSectionsByLevel,
 };
 
 export const orderedLessons: LessonEntry[] = cefrCodes.flatMap((level) =>
