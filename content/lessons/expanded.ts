@@ -77,8 +77,8 @@ C2:{title:'ظرافت نحوی و انسجام گفتمان',rule:'در سطح �
 };
 
 function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Topic):Lesson {
-  const start = lessonNo===1 ? 0 : 5;
-  const words:Word[] = topic.words.slice(start,start+5).map(([en,fa,ipa])=>w(en,fa,ipa));
+  const start = (lessonNo - 1) * 2;
+  const words:Word[] = Array.from({length:5},(_,offset)=>topic.words[(start+offset)%topic.words.length]).map(([en,fa,ipa])=>w(en,fa,ipa));
   const first=words[0], second=words[1], third=words[2];
   const grammarInfo=grammarByLevel[level];
   const prompts = [
