@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { BookOpen, RefreshCw } from 'lucide-react-native';
-import { cefrLevelByCode } from '@/constants/levels';
+import { BookOpen, Lock, RefreshCw } from 'lucide-react-native';
+import { cefrCodes, cefrLevelByCode } from '@/constants/levels';
 import { semanticColors, spacing, typography } from '@/constants/theme';
 import { GradientBackground } from '@/components/ui/GradientBackground';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
@@ -9,6 +9,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ListRow } from '@/components/ui/ListRow';
 import { SectionCard } from '@/components/lessons/SectionCard';
+import { GlowCard } from '@/components/ui/GlowCard';
 import { useProfiles } from '@/context/ProfileContext';
 import { getSections } from '@/content/lessons';
 import { getLevelProgress } from '@/utils/lessonProgress';
@@ -66,6 +67,21 @@ export default function LessonsScreen() {
             />
           ))
         )}
+
+        {cefrCodes.slice(cefrCodes.indexOf(learningLevel) + 1).map((code) => {
+          const lockedInfo = cefrLevelByCode[code];
+          return (
+            <GlowCard key={code} style={styles.lockedLevel}>
+              <View style={[styles.lockIcon, { backgroundColor: lockedInfo.color }]}>
+                <Lock size={18} color={semanticColors.onPrimary} />
+              </View>
+              <View style={styles.lockedLevelText}>
+                <Text style={styles.lockedLevelTitle}>{`سطح ${lockedInfo.name} (${code})`}</Text>
+                <Text style={styles.lockedLevelDescription}>پس از تکمیل تمام درس‌های سطح قبلی باز می‌شود.</Text>
+              </View>
+            </GlowCard>
+          );
+        })}
       </ScrollView>
     </GradientBackground>
   );
@@ -109,7 +125,7 @@ const styles = StyleSheet.create({
     ...typography.label,
     color: semanticColors.textSecondary,
   },
-  reviewBox: {
+  lockedLevel: {\n    flexDirection: 'row',\n    alignItems: 'center',\n    gap: spacing.sm,\n    opacity: 0.72,\n  },\n  lockIcon: {\n    width: 38,\n    height: 38,\n    borderRadius: 13,\n    alignItems: 'center',\n    justifyContent: 'center',\n  },\n  lockedLevelText: {\n    flex: 1,\n    gap: 3,\n  },\n  lockedLevelTitle: {\n    ...typography.bodyStrong,\n    color: semanticColors.textPrimary,\n    textAlign: 'right',\n  },\n  lockedLevelDescription: {\n    ...typography.caption,\n    color: semanticColors.textSecondary,\n    textAlign: 'right',\n  },\n  reviewBox: {
     borderRadius: 24,
     backgroundColor: semanticColors.surface,
     borderWidth: 1,
