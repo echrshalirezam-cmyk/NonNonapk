@@ -14,7 +14,7 @@ import { orderedLessons } from '@/content/lessons';
 import type { Word } from '@/types/lesson';
 
 type Mode = 'placement' | 'daily' | 'level';
-type Question = { id: string; level: CefrCode; word: Word; choices: string[]; answer: number };
+type Question = { id: string; level: CefrCode; prompt: string; display: string; helper: string; choices: string[]; answer: number; reviewKey: string };
 type AssessmentRecord = { id: string; date: string; mode: Mode; score: number; total: number; level: CefrCode; weakWords: string[] };
 
 const HISTORY_LIMIT = 50;
@@ -36,7 +36,24 @@ function wordsForLevel(level: CefrCode): Word[] {
 const allWords = cefrCodes.flatMap(wordsForLevel);
 
 function makeQuestion(level: CefrCode): Question | null {
+  const entries = orderedLessons.filter((entry) => entry.level === level);
   const pool = wordsForLevel(level);
+  const exercisePool = entries.flatMap((entry) => entry.lesson.exercises
+    .filter((exercise) => (exercise.type === 'choice' || exercise.type === 'translation') && !('audio' in exercise && exercise.audio))
+    .map((exercise) => ({ exercise, lessonTitle: entry.lesson.title })));
+  if (exercisePool.length && Math.random() < 0.4) {
+    const item = randomItem(exercisePool);
+    return {
+      id: item.lessonTitle + ':' + Math.random().toString(36).slice(2),
+      level,
+      prompt: item.exercise.prompt,
+      display: item.lessonTitle,
+      helper: 'تمرین جمله و گرامر',
+      choices: item.exercise.choices,
+      answer: item.exercise.answer,
+      reviewKey: item.lessonTitle + ' — ' + item.exercise.prompt,
+    };
+  }
   if (!pool.length) return null;
   const word = randomItem(pool);
   const distractors = shuffled(allWords.filter((item) => item.en !== word.en && item.fa !== word.fa))
@@ -44,7 +61,16 @@ function makeQuestion(level: CefrCode): Question | null {
     .slice(0, 3).map((item) => item.fa);
   if (distractors.length < 3) return null;
   const choices = shuffled([word.fa, ...distractors]);
-  return { id: word.en + ':' + Math.random().toString(36).slice(2), level, word, choices, answer: choices.indexOf(word.fa) };
+  return {
+    id: word.en + ':' + Math.random().toString(36).slice(2),
+    level,
+    prompt: 'معنی این واژه چیست؟',
+    display: word.en,
+    helper: word.ipa,
+    choices,
+    answer: choices.indexOf(word.fa),
+    reviewKey: word.en,
+  };
 }
 
 export default function AssessmentScreen() {
@@ -94,7 +120,7 @@ export default function AssessmentScreen() {
     setSelected(choiceIndex);
     const isCorrect = choiceIndex === question.answer;
     const nextScore = score + (isCorrect ? 1 : 0);
-    const nextWeak = isCorrect ? weakWords : [...weakWords, question.word.en];
+    const nextWeak = isCorrect ? weakWords : [...weakWords, question.reviewKey];
     setScore(nextScore);
     setWeakWords(nextWeak);
     const nextCorrectStreak = isCorrect ? correctStreak + 1 : 0;
@@ -173,16 +199,16 @@ export default function AssessmentScreen() {
             <ProgressBar progress={finished.score / finished.total} height={12} />
             <Text style={styles.sectionTitle}>موارد نیازمند مرور</Text>
             {finished.weakWords.length ? finished.weakWords.slice(0, 8).map((word) => <Text key={word} style={styles.weakWord}>• {word}</Text>) : <Text style={styles.description}>عالی بود! در این آزمون اشتباهی نداشتی.</Text>}
-            <Text style={styles.note}>نتیجه در سوابق این پروفایل ذخیره شد. این ارزیابی بر اساس واژگان است و جایگزین آزمون رسمی CEFR نیست.</Text>
+            <Text style={styles.note}>نتیجه در سوابق این پروفایل ذخیره شد. این ارزیابی از واژگان و بخشی از تمرین‌های جمله و گرامر استفاده می‌کند و جایگزین آزمون رسمی CEFR نیست.</Text>
             <Pressable style={styles.primaryButton} onPress={reset}><Text style={styles.primaryButtonText}>بازگشت به آزمون‌ها</Text></Pressable>
           </GlowCard>
         ) : question ? (
           <View style={styles.quiz}>
             <View style={styles.quizMeta}><Text style={styles.muted}>سؤال {number + 1} از {QUESTION_COUNT}</Text><Text style={styles.levelPill}>{question.level}</Text></View>
             <ProgressBar progress={(number + 1) / QUESTION_COUNT} height={8} />
-            <Text style={styles.questionHint}>معنی این واژه چیست؟</Text>
-            <Text style={styles.word}>{question.word.en}</Text>
-            <Text style={styles.ipa}>{question.word.ipa}</Text>
+            <Text style={styles.questionHint}>{question.prompt}</Text>
+            <Text style={styles.word}>{question.display}</Text>
+            <Text style={styles.ipa}>{question.helper}</Text>
             <View style={styles.options}>
               {question.choices.map((choice, index) => {
                 const isAnswer = index === question.answer;
