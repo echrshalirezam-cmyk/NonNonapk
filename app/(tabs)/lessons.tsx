@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { BookOpen, Lock, RefreshCw } from 'lucide-react-native';
+import { BookOpen, Brain, Lock, RefreshCw } from 'lucide-react-native';
 import { cefrCodes, cefrLevelByCode } from '@/constants/levels';
 import { semanticColors, spacing, typography } from '@/constants/theme';
 import { GradientBackground } from '@/components/ui/GradientBackground';
@@ -32,6 +32,15 @@ export default function LessonsScreen() {
     <GradientBackground>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <ScreenHeader title="درس‌ها" />
+
+        <Pressable style={styles.assessmentButton} onPress={() => router.push('/assessment')}>
+          <View style={styles.assessmentIcon}><Brain size={22} color={semanticColors.primary} /></View>
+          <View style={styles.assessmentText}>
+            <Text style={styles.assessmentTitle}>آزمون هوشمند آفلاین</Text>
+            <Text style={styles.assessmentDescription}>تعیین سطح، آزمون روزانه و تحلیل اشتباهات</Text>
+          </View>
+          <BookOpen size={18} color={semanticColors.textMuted} />
+        </Pressable>
 
         <View style={styles.summary}>
           <View style={styles.summaryTop}>
@@ -90,6 +99,11 @@ export default function LessonsScreen() {
 }
 
 const styles = StyleSheet.create({
+  assessmentButton: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.sm, borderRadius: 20, backgroundColor: semanticColors.surface, borderWidth: 1, borderColor: semanticColors.borderGlow },
+  assessmentIcon: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: semanticColors.surfaceRaised },
+  assessmentText: { flex: 1, gap: 3 },
+  assessmentTitle: { ...typography.bodyStrong, color: semanticColors.textPrimary, textAlign: 'right' },
+  assessmentDescription: { ...typography.caption, color: semanticColors.textSecondary, textAlign: 'right' },
   content: {
     paddingHorizontal: spacing.sm,
     paddingTop: spacing.md,
