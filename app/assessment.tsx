@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { ArrowRight, Brain, CheckCircle2, LockKeyhole, RotateCcw, Sparkles, Target, Trophy, XCircle } from 'lucide-react-native';
+import { ArrowRight, Brain, CheckCircle2, Sparkles, Target, Trophy, XCircle } from 'lucide-react-native';
 import { cefrCodes, cefrLevelByCode, type CefrCode } from '@/constants/levels';
 import { semanticColors, spacing, typography } from '@/constants/theme';
 import { GradientBackground } from '@/components/ui/GradientBackground';
@@ -61,7 +61,6 @@ export default function AssessmentScreen() {
   const [history, setHistory] = useState<AssessmentRecord[]>([]);
   const [finished, setFinished] = useState<AssessmentRecord | null>(null);
 
-  const currentLevel = cefrCodes[levelIndex] ?? 'A1';
   const storageKey = activeProfile ? 'nonnon.assessments.' + activeProfile.id : '';
 
   useEffect(() => {
@@ -104,7 +103,7 @@ export default function AssessmentScreen() {
     setWrongStreak(nextWrongStreak);
 
     const nextIndex = mode === 'placement'
-      ? Math.min(cefrCodes.length - 1, Math.max(0, levelIndex + (nextCorrectStreak >= 2 ? 1 : nextWrongStreak >= 2 ? -1 : 0)))
+      ? Math.min(cefrCodes.length - 1, Math.max(0, levelIndex + (nextCorrectStreak === 2 ? 1 : nextWrongStreak === 2 ? -1 : 0)))
       : levelIndex;
 
     setTimeout(async () => {
@@ -206,7 +205,7 @@ export default function AssessmentScreen() {
   );
 }
 
-function ModeCard({ icon, title, detail, onPress }: { icon: React.ReactNode; title: string; detail: string; onPress: () => void }) {
+function ModeCard({ icon, title, detail, onPress }: { icon: ReactNode; title: string; detail: string; onPress: () => void }) {
   return <Pressable onPress={onPress} style={({ pressed }) => [styles.modeCard, pressed && styles.pressed]}><View style={styles.modeIcon}>{icon}</View><View style={styles.modeText}><Text style={styles.modeTitle}>{title}</Text><Text style={styles.modeDetail}>{detail}</Text></View><ArrowRight size={19} color={semanticColors.textMuted} /></Pressable>;
 }
 
