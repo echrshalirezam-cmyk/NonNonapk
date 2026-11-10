@@ -127,7 +127,34 @@ const styles = StyleSheet.create({
     ...typography.label,
     color: semanticColors.textSecondary,
   },
-  lockedLevel: {\n    flexDirection: 'row',\n    alignItems: 'center',\n    gap: spacing.sm,\n    opacity: 0.72,\n  },\n  lockIcon: {\n    width: 38,\n    height: 38,\n    borderRadius: 13,\n    alignItems: 'center',\n    justifyContent: 'center',\n  },\n  lockedLevelText: {\n    flex: 1,\n    gap: 3,\n  },\n  lockedLevelTitle: {\n    ...typography.bodyStrong,\n    color: semanticColors.textPrimary,\n    textAlign: 'right',\n  },\n  lockedLevelDescription: {\n    ...typography.caption,\n    color: semanticColors.textSecondary,\n    textAlign: 'right',\n  },\n  reviewBox: {
+  lockedLevel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    opacity: 0.72,
+  },
+  lockIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  lockedLevelText: {
+    flex: 1,
+    gap: 3,
+  },
+  lockedLevelTitle: {
+    ...typography.bodyStrong,
+    color: semanticColors.textPrimary,
+    textAlign: 'right',
+  },
+  lockedLevelDescription: {
+    ...typography.caption,
+    color: semanticColors.textSecondary,
+    textAlign: 'right',
+  },
+  reviewBox: {
     borderRadius: 24,
     backgroundColor: semanticColors.surface,
     borderWidth: 1,
