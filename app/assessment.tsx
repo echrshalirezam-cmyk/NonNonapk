@@ -88,6 +88,9 @@ export default function AssessmentScreen() {
   const [weakWords, setWeakWords] = useState<string[]>([]);
   const [history, setHistory] = useState<AssessmentRecord[]>([]);
   const [finished, setFinished] = useState<AssessmentRecord | null>(null);
+  const [previousQuestion, setPreviousQuestion] = useState<{ question: Question; selected: number; number: number } | null>(null);
+  const [returnQuestion, setReturnQuestion] = useState<{ question: Question; selected: number | null; number: number } | null>(null);
+  const [viewingPrevious, setViewingPrevious] = useState(false);
 
   const storageKey = activeProfile ? 'nonnon.assessments.' + activeProfile.id : '';
 
@@ -114,11 +117,14 @@ export default function AssessmentScreen() {
     setWrongStreak(0);
     setWeakWords([]);
     setFinished(null);
+    setPreviousQuestion(null);
+    setReturnQuestion(null);
+    setViewingPrevious(false);
     nextQuestion(cefrCodes[startLevel]);
   };
 
   const answer = async (choiceIndex: number) => {
-    if (!question || selected !== null) return;
+    if (!question || selected !== null || viewingPrevious) return;
     setSelected(choiceIndex);
     const isCorrect = choiceIndex === question.answer;
     const nextScore = score + (isCorrect ? 1 : 0);
@@ -154,11 +160,32 @@ export default function AssessmentScreen() {
           await AsyncStorage.setItem(storageKey, JSON.stringify(updated)).catch(() => undefined);
         }
       } else {
+        setPreviousQuestion({ question, selected: choiceIndex, number });
+        setReturnQuestion(null);
+        setViewingPrevious(false);
         setNumber(completed);
         setLevelIndex(nextIndex);
         nextQuestion(cefrCodes[nextIndex]);
       }
     }, 650);
+  };
+
+  const goToPrevious = () => {
+    if (!previousQuestion || viewingPrevious || !question) return;
+    setReturnQuestion({ question, selected, number });
+    setQuestion(previousQuestion.question);
+    setSelected(previousQuestion.selected);
+    setNumber(previousQuestion.number);
+    setViewingPrevious(true);
+  };
+
+  const goToCurrent = () => {
+    if (!returnQuestion) return;
+    setQuestion(returnQuestion.question);
+    setSelected(returnQuestion.selected);
+    setNumber(returnQuestion.number);
+    setReturnQuestion(null);
+    setViewingPrevious(false);
   };
 
   const reset = () => {
@@ -226,6 +253,18 @@ export default function AssessmentScreen() {
               })}
             </View>
             <Text style={styles.muted}>سطح سؤال: {question.level}</Text>
+            <View style={styles.navigationRow}>
+              {viewingPrevious ? (
+                <Pressable style={styles.navButton} onPress={goToCurrent}>
+                  <Text style={styles.navButtonText}>سؤال بعدی</Text>
+                </Pressable>
+              ) : previousQuestion ? (
+                <Pressable style={styles.navButton} onPress={goToPrevious}>
+                  <Text style={styles.navButtonText}>سؤال قبلی</Text>
+                </Pressable>
+              ) : <View />}
+              {viewingPrevious ? <Text style={styles.muted}>در حال مرور سؤال قبلی</Text> : <Text style={styles.muted}>پاسخ ثبت‌شده قابل تغییر نیست</Text>}
+            </View>
           </View>
         ) : null}
       </ScrollView>
@@ -257,6 +296,9 @@ const styles = StyleSheet.create({
   historyScore: { ...typography.bodyStrong, color: semanticColors.primary },
   historyText: { ...typography.caption, color: semanticColors.textPrimary },
   quiz: { gap: spacing.md, paddingTop: spacing.md },
+  navigationRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm, minHeight: 48 },
+  navButton: { minHeight: 44, justifyContent: 'center', paddingHorizontal: spacing.md, borderRadius: 14, borderWidth: 1, borderColor: semanticColors.borderGlow, backgroundColor: semanticColors.surfaceRaised },
+  navButtonText: { ...typography.bodyStrong, color: semanticColors.primary },
   quizMeta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   levelPill: { ...typography.label, color: semanticColors.primary, backgroundColor: semanticColors.surfaceRaised, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 12 },
   questionHint: { ...typography.body, color: semanticColors.textSecondary, textAlign: 'center', marginTop: spacing.md },
