@@ -55,6 +55,7 @@ export default function RootLayout() {
         <Stack.Screen name="diagnostics" />
         <Stack.Screen name="lesson-result" />
         <Stack.Screen name="review" />
+        <Stack.Screen name="assessment" />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="light" />
