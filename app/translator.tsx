@@ -214,7 +214,7 @@ export default function TranslatorScreen() {
             multiline maxLength={MAX_INPUT_LENGTH} textAlignVertical="top"
             textAlign={direction === 'fa-en' ? 'right' : 'left'}
             style={[styles.input, direction === 'fa-en' ? styles.persianText : styles.englishText]}
-            editable={!listening}
+            editable={!listening && !loading}
           />
           <View style={styles.inputActions}>
             <Pressable onPress={listening ? stopVoiceInput : startVoiceInput} style={[styles.micButton, listening && styles.micActive]} accessibilityRole="button">
