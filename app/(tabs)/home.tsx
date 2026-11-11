@@ -59,7 +59,7 @@ export default function HomeScreen() {
         <LearningPathCard
           title="مسیر یادگیری"
           subtitle={`سطح ${progress.learningLevel}`}
-          onPress={() => router.navigate('/(tabs)/lessons')}
+          onPress={() => router.push('/learning-path')}
         />
 
         <View style={styles.grid}>
