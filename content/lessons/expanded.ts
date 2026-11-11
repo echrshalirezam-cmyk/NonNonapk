@@ -76,6 +76,49 @@ C1:{title:'وارونگی و وجه‌نمایی دقیق',rule:'برای تأک
 C2:{title:'ظرافت نحوی و انسجام گفتمان',rule:'در سطح پیشرفته، ساختار جمله را متناسب با هدف بلاغی انتخاب کنید؛ حذف، وارونگی و بندهای وابسته باید معنا و لحن را دقیق‌تر کنند.',frames:[['Were it not for the evidence, the claim would fail.','اگر شواهد نبود، ادعا شکست می‌خورد.'],['What matters is not the claim itself but its implications.','آنچه اهمیت دارد خود ادعا نیست، بلکه پیامدهای آن است.']]}
 };
 
+
+const grammarProgression: Record<CefrCode, {title:string; rule:string; frames:[string,string][]}[]> = {
+A2:[
+grammarByLevel.A2,
+{title:'گذشته ساده',rule:'برای رویداد تمام‌شده در گذشته از فعل گذشته استفاده کنید؛ در سؤال و منفی از did و شکل ساده فعل کمک بگیرید.',frames:[['Did you arrive on time?','آیا به‌موقع رسیدی؟'],['We did not miss the train.','ما قطار را از دست ندادیم.']]},
+{title:'اسم‌های قابل‌شمارش و مقدار',rule:'برای اسم قابل‌شمارش از many و a few و برای اسم غیرقابل‌شمارش از much و a little استفاده کنید.',frames:[['There are a few tickets left.','چند بلیط باقی مانده است.'],['We do not have much time.','وقت زیادی نداریم.']]},
+{title:'مقایسه صفت‌ها',rule:'برای مقایسه دو چیز از صفت تفضیلی با than استفاده کنید؛ برای برتری بیشتر از the most استفاده کنید.',frames:[['This jacket is cheaper than that one.','این کاپشن از آن یکی ارزان‌تر است.'],['It is the most comfortable seat.','این راحت‌ترین صندلی است.']]},
+{title:'بیان برنامه آینده',rule:'برای برنامه از be going to و برای تصمیم لحظه‌ای یا پیش‌بینی از will استفاده کنید.',frames:[['I am going to book a room.','می‌خواهم یک اتاق رزرو کنم.'],['I think the weather will change.','فکر می‌کنم هوا تغییر خواهد کرد.']]}
+],
+B1:[
+grammarByLevel.B1,
+{title:'حال کامل',rule:'برای تجربه یا کاری که اثرش تا اکنون ادامه دارد از have یا has به‌علاوه شکل سوم فعل استفاده کنید.',frames:[['I have visited that city twice.','من دو بار از آن شهر دیدن کرده‌ام.'],['She has already finished the report.','او گزارش را قبلاً تمام کرده است.']]},
+{title:'جمله‌واره‌های موصولی',rule:'از who برای افراد، which برای چیزها و that در بسیاری از جمله‌های موصولی استفاده کنید.',frames:[['The colleague who helped me is here.','همکاری که به من کمک کرد اینجاست.'],['This is the book that I recommended.','این همان کتابی است که پیشنهاد کردم.']]},
+{title:'مصدر و gerund',rule:'پس از بعضی فعل‌ها از فعل ingدار و پس از بعضی دیگر از to به‌علاوه شکل ساده فعل استفاده می‌شود.',frames:[['I enjoy learning new skills.','من از یادگیری مهارت‌های تازه لذت می‌برم.'],['We decided to change the plan.','تصمیم گرفتیم برنامه را تغییر دهیم.']]},
+{title:'شرطی نوع اول و دوم',rule:'شرطی نوع اول درباره امکان واقعی آینده است؛ شرطی نوع دوم درباره وضعیت فرضی یا بعید صحبت می‌کند.',frames:[['If we leave now, we will arrive early.','اگر الان حرکت کنیم، زود می‌رسیم.'],['If I had more time, I would study more.','اگر وقت بیشتری داشتم، بیشتر درس می‌خواندم.']]}
+],
+B2:[
+grammarByLevel.B2,
+{title:'گزارش گفتار',rule:'برای نقل غیرمستقیم، زمان فعل و ضمیرها معمولاً با توجه به زمان گزارش تغییر می‌کنند.',frames:[['She said that the results were reliable.','او گفت که نتایج قابل اعتماد بودند.'],['He told me he had sent the message.','او به من گفت پیام را فرستاده بود.']]},
+{title:'شرطی نوع سوم',rule:'برای فرض خلاف واقع در گذشته از if به‌علاوه past perfect و در نتیجه از would have به‌علاوه شکل سوم فعل استفاده کنید.',frames:[['If we had checked the data, we would have found the error.','اگر داده‌ها را بررسی کرده بودیم، خطا را پیدا می‌کردیم.'],['They would have succeeded if they had cooperated.','اگر همکاری کرده بودند، موفق می‌شدند.']]},
+{title:'افعال وجهی برای استنباط',rule:'از must برای نتیجه‌گیری قوی، might برای احتمال و cannot برای ناممکن دانستن استفاده کنید.',frames:[['The figures must be accurate.','اعداد حتماً دقیق هستند.'],['This explanation might be correct.','این توضیح ممکن است درست باشد.']]},
+{title:'بندهای وصفی و کاهش‌یافته',rule:'در نوشتار پیشرفته می‌توان بعضی بندهای موصولی را با عبارت وصفی کوتاه‌تر کرد، به شرط آنکه فاعل روشن بماند.',frames:[['The report published yesterday contains new evidence.','گزارشی که دیروز منتشر شد، شواهد تازه‌ای دارد.'],['People working remotely need clear schedules.','افرادی که دورکاری می‌کنند به برنامه‌های روشن نیاز دارند.']]}
+],
+C1:[
+grammarByLevel.C1,
+{title:'جمله‌های تأکیدی (Cleft)',rule:'برای برجسته‌کردن یک بخش جمله از ساختارهایی مانند It is ... that یا What ... is استفاده کنید.',frames:[['It was the evidence that changed the decision.','این شواهد بود که تصمیم را تغییر داد.'],['What we need is a clearer explanation.','آنچه نیاز داریم توضیحی روشن‌تر است.']]},
+{title:'وجه‌نمایی و احتیاط در بیان',rule:'در متن علمی و حرفه‌ای با may، might، appears to و is likely to میزان قطعیت ادعا را دقیق نشان دهید.',frames:[['The findings appear to support the theory.','یافته‌ها ظاهراً از نظریه پشتیبانی می‌کنند.'],['This approach may lead to better outcomes.','این رویکرد ممکن است به نتایج بهتری منجر شود.']]},
+{title:'بندهای وصفی کوتاه‌شده',rule:'عبارت‌های وصفی کوتاه‌شده اطلاعات را فشرده می‌کنند؛ شکل ing معمولاً معنای فعال و شکل سوم فعل معنای مجهول دارد.',frames:[['The data collected over ten years reveal a pattern.','داده‌های گردآوری‌شده طی ده سال الگویی را آشکار می‌کنند.'],['Researchers analysing the results found a link.','پژوهشگرانی که نتایج را تحلیل می‌کردند، ارتباطی یافتند.']]},
+{title:'تضاد و امتیازدهی پیشرفته',rule:'برای بیان تضاد دقیق از although، whereas، notwithstanding و even though متناسب با لحن جمله استفاده کنید.',frames:[['Notwithstanding the risks, the project continued.','با وجود خطرها، پروژه ادامه یافت.'],['Whereas the first study was limited, the second was comprehensive.','در حالی که مطالعه اول محدود بود، مطالعه دوم جامع بود.']]}
+],
+C2:[
+grammarByLevel.C2,
+{title:'وارونگی پیشرفته',rule:'پس از قیدهای محدودکننده یا منفی مانند Not until و Under no circumstances، در ساختار رسمی فعل کمکی پیش از فاعل می‌آید.',frames:[['Not until later did we understand the impact.','تنها بعدتر بود که تأثیر را درک کردیم.'],['Under no circumstances should the data be altered.','تحت هیچ شرایطی نباید داده‌ها تغییر داده شوند.']]},
+{title:'ساختارهای امتیازی',rule:'از ساختارهای امتیازی برای بیان اینکه یک واقعیت مانع نتیجه دیگری نشده است استفاده کنید.',frames:[['Much as I respect the proposal, I cannot support it.','هرچند برای پیشنهاد احترام قائلم، نمی‌توانم از آن حمایت کنم.'],['However difficult the task may be, it remains necessary.','هرقدر کار دشوار باشد، همچنان ضروری است.']]},
+{title:'حذف و جایگزینی در گفتمان',rule:'برای جلوگیری از تکرار، در صورت روشن بودن معنا از so، not، do و ساختارهای حذف‌شده استفاده کنید.',frames:[['Some experts agree; others do not.','برخی متخصصان موافق‌اند؛ برخی دیگر نیستند.'],['Will the plan work? I believe so.','آیا برنامه جواب می‌دهد؟ فکر می‌کنم بله.']]},
+{title:'دقت معنایی و وجه‌نمایی',rule:'انتخاب میان must، should، would و might می‌تواند الزام، انتظار، ترجیح یا احتمال را با تفاوت ظریف منتقل کند.',frames:[['The conclusion would seem to follow from the evidence.','به نظر می‌رسد نتیجه از شواهد پیروی می‌کند.'],['The policy need not produce the same outcome everywhere.','لازم نیست این سیاست در همه‌جا نتیجه یکسانی داشته باشد.']]}
+]
+};
+
+function grammarForLesson(level:CefrCode, lessonNo:number) {
+  return grammarProgression[level][lessonNo-1] ?? grammarByLevel[level];
+}
+
 function makeOptions(correct:string, distractors:string[], offset:number): {choices:string[]; answer:number} {
   const unique = [...new Set(distractors.filter((item)=>item!==correct))].slice(0,3);
   while(unique.length<3) unique.push(['گزینه نامرتبط','پاسخ دیگر','نمونه نادرست'][unique.length]);
@@ -89,7 +132,7 @@ function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Top
   const start = (lessonNo - 1) * 2;
   const words:Word[] = Array.from({length:5},(_,offset)=>topic.words[(start+offset)%topic.words.length]).map(([en,fa,ipa])=>w(en,fa,ipa));
   const [first,second,third,fourth,fifth]=words;
-  const grammarInfo=grammarByLevel[level];
+  const grammarInfo=grammarForLesson(level,lessonNo);
   const offset=sectionNo*5+lessonNo;
   const q1=makeOptions(first.fa,[second.fa,third.fa,fourth.fa],offset);
   const audioChoices=makeOptions(first.fa,[second.fa,third.fa,fourth.fa],offset+1);
@@ -98,7 +141,7 @@ function makeLesson(level:CefrCode, sectionNo:number, lessonNo:number, topic:Top
   const translation=makeOptions(grammarInfo.frames[0][0],[grammarInfo.frames[1][0],'I no understand this.','They is working.'],offset+1);
   const pairs:[string,string][] = words.slice(0,4).map(item=>[item.en,item.fa]);
   return {
-    id:`${level}-${sectionNo}-${sectionNo}-${lessonNo}`,
+    id:`${level}-${sectionNo}-${lessonNo}`,
     title:[`آشنایی با ${topic.title}`,`کاربرد واژه‌ها در ${topic.title}`,`مکالمه درباره ${topic.title}`,`ساخت جمله در ${topic.title}`,`جمع‌بندی ${topic.title}`][lessonNo-1],
     words,
     grammar:grammar(grammarInfo.title,grammarInfo.rule,grammarInfo.frames),
