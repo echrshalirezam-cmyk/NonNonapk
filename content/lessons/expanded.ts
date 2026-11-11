@@ -69,6 +69,7 @@ const packs: LevelPack[] = [
 ];
 
 const grammarByLevel: Record<CefrCode, {title:string; rule:string; frames:[string,string][]}> = {
+A1:{title:'جمله‌های پایه و فعل to be',rule:'برای معرفی و توصیف از am و is و are استفاده کنید. در جمله ساده، فاعل پیش از فعل می‌آید.',frames:[['I am a student.','من دانش‌آموز هستم.'],['She is happy.','او خوشحال است.']]},
 A2:{title:'زمان گذشته و آینده',rule:'از گذشته ساده برای رویدادهای تمام‌شده و از be going to یا will برای برنامه و پیش‌بینی استفاده کنید.',frames:[['I visited the museum yesterday.','دیروز از موزه دیدن کردم.'],['We are going to travel next week.','هفته آینده قصد سفر داریم.']]},
 B1:{title:'جمله‌های پیچیده و روایت',rule:'برای پیوند دادن دلیل، نتیجه و تضاد از because، although، while و so استفاده کنید؛ زمان‌ها را با ترتیب رویداد هماهنگ کنید.',frames:[['Although it was raining, we continued.','با اینکه باران می‌بارید، ادامه دادیم.'],['I had finished before they arrived.','پیش از رسیدن آن‌ها کارم را تمام کرده بودم.']]},
 B2:{title:'وجه مجهول و شرطی‌های ترکیبی',rule:'در نوشتار رسمی از مجهول برای برجسته‌کردن نتیجه استفاده کنید و در شرطی‌ها رابطه فرض و پیامد را دقیق نگه دارید.',frames:[['The results were carefully analysed.','نتایج با دقت تحلیل شدند.'],['If we had planned better, we would be ready now.','اگر بهتر برنامه‌ریزی کرده بودیم، اکنون آماده بودیم.']]},
@@ -78,6 +79,13 @@ C2:{title:'ظرافت نحوی و انسجام گفتمان',rule:'در سطح �
 
 
 const grammarProgression: Record<CefrCode, {title:string; rule:string; frames:[string,string][]}[]> = {
+A1:[
+grammarByLevel.A1,
+{title:'ضمیرها و فعل to be',rule:'از I am، you are و he/she/it is برای معرفی افراد استفاده کنید.',frames:[['You are my friend.','تو دوست من هستی.'],['He is at home.','او در خانه است.']]},
+{title:'منفی و پرسشی کردن to be',rule:'برای منفی کردن not را بعد از فعل بیاورید؛ برای سؤال، فعل را پیش از فاعل قرار دهید.',frames:[['I am not tired.','من خسته نیستم.'],['Are they ready?','آیا آن‌ها آماده‌اند؟']]},
+{title:'حال ساده و کارهای روزمره',rule:'برای عادت‌ها از شکل ساده فعل استفاده کنید؛ برای he و she معمولاً به فعل s اضافه می‌شود.',frames:[['I work every day.','من هر روز کار می‌کنم.'],['She likes tea.','او چای دوست دارد.']]},
+{title:'حروف تعریف و جمع بستن',rule:'از a پیش از اسم مفرد با صدای بی‌صدا و an پیش از صدای باصدا استفاده کنید؛ برای جمع معمولاً s اضافه می‌شود.',frames:[['It is an apple.','این یک سیب است.'],['I have two books.','من دو کتاب دارم.']]}
+],
 A2:[
 grammarByLevel.A2,
 {title:'گذشته ساده',rule:'برای رویداد تمام‌شده در گذشته از فعل گذشته استفاده کنید؛ در سؤال و منفی از did و شکل ساده فعل کمک بگیرید.',frames:[['Did you arrive on time?','آیا به‌موقع رسیدی؟'],['We did not miss the train.','ما قطار را از دست ندادیم.']]},
