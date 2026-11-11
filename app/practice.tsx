@@ -155,7 +155,7 @@ export default function PracticeScreen() {
             <Text style={styles.resultTitle}>تمرین تمام شد!</Text>
             <Text style={styles.resultScore}>{score} از {questions.length}</Text>
             <Text style={styles.resultText}>{score >= 8 ? 'عالی بود! همین‌طور ادامه بده.' : score >= 5 ? 'خوب پیش رفتی؛ با تکرار بهتر می‌شی.' : 'اشکالی نداره؛ دوباره تمرین کن.'}</Text>
-            <PrimaryButton label="تمرین دوباره" icon={<RotateCcw size={18} color={semanticColors.onPrimary} />} onPress={() => startPractice(mode)} />
+            <PrimaryButton label="تمرین دوباره" icon={<RotateCcw size={18} color={semanticColors.onPrimary} />} onPress={() => startPractice(mode ?? 'mixed')} />
             <Pressable onPress={resetPractice} style={styles.secondaryButton}><Text style={styles.secondaryText}>بازگشت به مرکز تمرین</Text></Pressable>
           </GlowCard>
         ) : current ? (
