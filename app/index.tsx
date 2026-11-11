@@ -39,7 +39,7 @@ export default function SplashScreen() {
 
         <View style={styles.brand}>
           <Text style={styles.logo}>NonNon</Text>
-          <Text style={styles.tagline}>Learn English, Fly High!</Text>
+          <Text style={styles.tagline}>New Language, New Life</Text>
         </View>
 
         <View style={styles.loader}>
