@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as Speech from 'expo-speech';
-import { spacing } from '@/constants/theme';
+import { semanticColors, spacing } from '@/constants/theme';
 import type { Exercise, ExerciseOutcome, GrammarNote, Lesson, LessonAttempt, Word } from '@/types/lesson';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { FeedbackBar } from '@/components/lessons/FeedbackBar';
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stepLabel: {
-    color: '#B8C2D9',
+    color: semanticColors.textSecondary,
     fontSize: 12,
     fontWeight: '600',
   },
