@@ -12,6 +12,7 @@ import {
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { semanticColors } from '@/constants/theme';
 import { ProfileProvider } from '@/context/ProfileContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,7 +40,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ProfileProvider>
+    <SafeAreaProvider>
+      <ProfileProvider>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -59,6 +61,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="light" />
-    </ProfileProvider>
+      </ProfileProvider>
+    </SafeAreaProvider>
   );
 }
