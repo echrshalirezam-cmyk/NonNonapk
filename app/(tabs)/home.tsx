@@ -75,7 +75,7 @@ export default function HomeScreen() {
             label="تمرین‌ها"
             colorStart={colors.royal[600]}
             colorEnd={colors.navy[700]}
-            onPress={() => router.navigate('/(tabs)/lessons')}
+            onPress={() => router.push('/practice')}
           />
           <ActionTile
             icon={Trophy}
