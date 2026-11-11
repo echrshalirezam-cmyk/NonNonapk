@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as Speech from 'expo-speech';
-import { spacing } from '@/constants/theme';
+import { semanticColors, spacing } from '@/constants/theme';
 import type { Exercise, ExerciseOutcome, GrammarNote, Lesson, LessonAttempt, Word } from '@/types/lesson';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { FeedbackBar } from '@/components/lessons/FeedbackBar';
@@ -49,6 +49,7 @@ export function LessonRunner({ lesson, busy, onComplete }: LessonRunnerProps) {
   const isLast = stepIndex === steps.length - 1;
 
   function handleAnswered(result: ExerciseOutcome) {
+    if (outcome) return;
     setOutcome(result);
     setTally((current) => ({
       ...current,
@@ -98,8 +99,12 @@ export function LessonRunner({ lesson, busy, onComplete }: LessonRunnerProps) {
 
   return (
     <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      <ProgressBar progress={stepIndex / steps.length} height={8} />
-      {renderStep()}
+      <View style={styles.progressHeader}>
+        <Text style={styles.stepLabel}>{`مرحله ${stepIndex + 1} از ${steps.length}`}</Text>
+        <Text style={styles.stepLabel}>{step?.kind === 'vocabulary' ? 'واژگان' : step?.kind === 'grammar' ? 'گرامر' : 'تمرین'}</Text>
+      </View>
+      <ProgressBar progress={Math.min(1, (stepIndex + (outcome ? 1 : 0)) / Math.max(steps.length, 1))} height={8} />
+      {step ? renderStep() : null}
       {outcome ? (
         <FeedbackBar
           outcome={outcome}
@@ -113,6 +118,16 @@ export function LessonRunner({ lesson, busy, onComplete }: LessonRunnerProps) {
 }
 
 const styles = StyleSheet.create({
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  stepLabel: {
+    color: semanticColors.textSecondary,
+    fontSize: 12,
+    fontWeight: '600',
+  },
   content: {
     paddingHorizontal: spacing.sm,
     paddingBottom: spacing.lg,
