@@ -58,13 +58,25 @@ export function previewDailyReward(progress: ProfileProgress, today: string): nu
   return dailyRewardAmount(markActivity(progress, today).dailyStreak);
 }
 
+export function unlockedAchievementIds(progress: ProfileProgress): string[] {
+  const met = achievementCatalog.filter((item) => item.metric(progress) >= item.target).map((item) => item.id);
+  return [...new Set([...progress.achievements, ...met])];
+}
+
+function persistAchievements(progress: ProfileProgress): ProfileProgress {
+  return { ...progress, achievements: unlockedAchievementIds(progress) };
+}
+
 export function claimDailyRewardRule(progress: ProfileProgress, today: string): RuleResult {
   if (progress.lastRewardDate === today) {
     return { ok: false, error: 'جایزه امروز قبلاً دریافت شده است.' };
   }
   const active = markActivity(progress, today);
   const amount = dailyRewardAmount(active.dailyStreak);
-  return { ok: true, progress: { ...active, coins: active.coins + amount, lastRewardDate: today } };
+  return {
+    ok: true,
+    progress: persistAchievements({ ...active, coins: active.coins + amount, lastRewardDate: today }),
+  };
 }
 
 export function buyHeartRule(progress: ProfileProgress, today: string): RuleResult {
@@ -73,7 +85,7 @@ export function buyHeartRule(progress: ProfileProgress, today: string): RuleResu
   if (base.coins < HEART_PRICE) return { ok: false, error: 'سکه کافی برای خرید قلب ندارید.' };
   return {
     ok: true,
-    progress: { ...base, hearts: base.hearts + 1, coins: base.coins - HEART_PRICE },
+    progress: persistAchievements({ ...base, hearts: base.hearts + 1, coins: base.coins - HEART_PRICE }),
   };
 }
 
@@ -88,15 +100,10 @@ export function reviewRule(
   const active = markActivity(progress, today);
   return {
     ok: true,
-    progress: {
+    progress: persistAchievements({
       ...active,
       reviewCount: active.reviewCount + 1,
       mistakeHistory: active.mistakeHistory.filter((record) => !resolved.has(record.wordId)),
-    },
+    }),
   };
-}
-
-export function unlockedAchievementIds(progress: ProfileProgress): string[] {
-  const met = achievementCatalog.filter((item) => item.metric(progress) >= item.target).map((item) => item.id);
-  return [...new Set([...progress.achievements, ...met])];
 }
