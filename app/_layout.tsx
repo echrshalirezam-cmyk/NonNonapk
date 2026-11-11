@@ -4,11 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
-import {
-  Vazirmatn_400Regular,
-  Vazirmatn_500Medium,
-  Vazirmatn_700Bold,
-} from '@expo-google-fonts/vazirmatn';
+import { Vazirmatn_400Regular, Vazirmatn_500Medium, Vazirmatn_700Bold } from '@expo-google-fonts/vazirmatn';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { semanticColors } from '@/constants/theme';
 import { ProfileProvider } from '@/context/ProfileContext';
@@ -18,7 +14,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useFrameworkReady();
-
   const [fontsLoaded, fontError] = useFonts({
     'Nunito-Regular': Nunito_400Regular,
     'Nunito-SemiBold': Nunito_600SemiBold,
@@ -30,37 +25,29 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
-    }
+    if (fontsLoaded || fontError) SplashScreen.hideAsync();
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  if (!fontsLoaded && !fontError) return null;
 
   return (
     <SafeAreaProvider>
       <ProfileProvider>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: semanticColors.background },
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="profiles" />
-        <Stack.Screen name="profile-editor" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="lesson/[id]" />
-        <Stack.Screen name="audio-settings" />
-        <Stack.Screen name="diagnostics" />
-        <Stack.Screen name="lesson-result" />
-        <Stack.Screen name="review" />
-        <Stack.Screen name="assessment" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="light" />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: semanticColors.background } }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="profiles" />
+          <Stack.Screen name="profile-editor" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="lesson/[id]" />
+          <Stack.Screen name="audio-settings" />
+          <Stack.Screen name="diagnostics" />
+          <Stack.Screen name="lesson-result" />
+          <Stack.Screen name="review" />
+          <Stack.Screen name="assessment" />
+          <Stack.Screen name="translator" />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="light" />
       </ProfileProvider>
     </SafeAreaProvider>
   );
