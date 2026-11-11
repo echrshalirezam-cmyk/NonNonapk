@@ -1,10 +1,12 @@
 import { Redirect, Tabs } from 'expo-router';
 import { BookOpen, Gift, House, Trophy, UserRound } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts, semanticColors } from '@/constants/theme';
 import { useProfiles } from '@/context/ProfileContext';
 
 export default function TabLayout() {
   const { ready, activeProfile } = useProfiles();
+  const insets = useSafeAreaInsets();
 
   if (!ready) return null;
   if (!activeProfile) return <Redirect href="/profiles" />;
@@ -19,9 +21,11 @@ export default function TabLayout() {
           backgroundColor: semanticColors.tabBar,
           borderTopColor: colors.navy[600],
           borderTopWidth: 1,
-          height: 72,
+          // Preserve the existing tab controls' dimensions and add only the
+          // real Android/iOS system navigation inset below them.
+          height: 72 + insets.bottom,
           paddingTop: 8,
-          paddingBottom: 12,
+          paddingBottom: 12 + insets.bottom,
         },
         tabBarLabelStyle: {
           fontFamily: fonts.persianMedium,
