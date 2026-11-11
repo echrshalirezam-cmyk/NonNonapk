@@ -33,7 +33,7 @@
         "xxhdpi": "./assets/images/splash-icon.png",
         "xxxhdpi": "./assets/images/splash-icon.png"
       },
-      "edgeToEdgeEnabled": false,
+      "edgeToEdgeEnabled": true,
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
