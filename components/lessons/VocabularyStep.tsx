@@ -6,6 +6,7 @@ import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SpeakButton } from '@/components/lessons/SpeakButton';
 import { PronunciationPractice } from '@/components/lessons/PronunciationPractice';
 import { fontForText } from '@/utils/fontForText';
+import { FavoriteWordText } from '@/components/FavoriteWordText';
 
 type VocabularyStepProps = {
   words: Word[];
@@ -21,7 +22,7 @@ export function VocabularyStep({ words, onNext }: VocabularyStepProps) {
           <View key={word.en} style={[styles.row, index > 0 && styles.divider]}>
             <SpeakButton text={word.en} />
             <View style={styles.texts}>
-              <Text style={styles.en}>{word.en}</Text>
+              <FavoriteWordText text={word.en} meaning={word.fa} context={word.en} textStyle={styles.en} />
               <Text style={styles.ipa}>{word.ipa}</Text>
               <PronunciationPractice word={word.en} />
             </View>

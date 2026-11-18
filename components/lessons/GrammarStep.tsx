@@ -5,6 +5,7 @@ import { GlowCard } from '@/components/ui/GlowCard';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SpeakButton } from '@/components/lessons/SpeakButton';
 import { fontForText } from '@/utils/fontForText';
+import { FavoriteWordText } from '@/components/FavoriteWordText';
 
 type GrammarStepProps = {
   note: GrammarNote;
@@ -23,7 +24,7 @@ export function GrammarStep({ note, onNext }: GrammarStepProps) {
           <View key={example.en} style={[styles.example, index > 0 && styles.divider]}>
             <SpeakButton text={example.en} size={36} />
             <View style={styles.texts}>
-              <Text style={styles.en}>{example.en}</Text>
+              <FavoriteWordText text={example.en} context={example.en} textStyle={styles.en} />
               <Text style={[styles.fa, { fontFamily: fontForText(example.fa, 'regular') }]}>{example.fa}</Text>
             </View>
           </View>

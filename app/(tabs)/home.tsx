@@ -41,6 +41,7 @@ export default function HomeScreen() {
         <View style={styles.grid}>
           <ActionTile icon={BookOpen} label="درس‌ها" colorStart={colors.royal[500]} colorEnd={colors.royal[800]} onPress={() => router.navigate('/(tabs)/lessons')} />
           <ActionTile icon={Dumbbell} label="تمرین‌ها" colorStart={colors.royal[600]} colorEnd={colors.navy[700]} onPress={() => router.push('/practice')} />
+          <ActionTile icon={Star} label="کلمات برگزیده" colorStart="#D99B24" colorEnd="#8A5A13" onPress={() => router.push('/favorite-words')} />
           <ActionTile icon={Languages} label="مترجم" colorStart="#B34DCE" colorEnd="#6B35A8" onPress={() => router.push('/translator')} />
           <ActionTile icon={Trophy} label="رتبه‌بندی" colorStart={colors.gold[400]} colorEnd={colors.gold[600]} onPress={() => router.navigate('/(tabs)/leaderboard')} />
           <ActionTile icon={Gift} label="پاداش‌ها" colorStart={colors.royal[400]} colorEnd={colors.royal[700]} onPress={() => router.navigate('/(tabs)/rewards')} />
