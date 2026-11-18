@@ -8,6 +8,7 @@ import { SpeakButton } from '@/components/lessons/SpeakButton';
 import { useAudioSettings } from '@/hooks/useAudioSettings';
 import { speakText } from '@/utils/speech';
 import { fontForText } from '@/utils/fontForText';
+import { FavoriteWordText } from '@/components/FavoriteWordText';
 
 type ChoiceExerciseData = Extract<Exercise, { type: 'choice' | 'translation' }>;
 
@@ -53,7 +54,7 @@ export function ChoiceExercise({ exercise, onAnswered }: ChoiceExerciseProps) {
         <View style={styles.promptRow}>
           {audio ? <SpeakButton text={audio} /> : null}
           <Text style={[styles.prompt, { fontFamily: fontForText(exercise.prompt, 'bold') }]}>
-            {exercise.prompt}
+            <FavoriteWordText text={exercise.prompt} context={exercise.prompt} textStyle={styles.prompt} />
           </Text>
         </View>
       </GlowCard>
