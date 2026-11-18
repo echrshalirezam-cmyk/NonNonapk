@@ -53,9 +53,7 @@ export function ChoiceExercise({ exercise, onAnswered }: ChoiceExerciseProps) {
       <GlowCard style={styles.card}>
         <View style={styles.promptRow}>
           {audio ? <SpeakButton text={audio} /> : null}
-          <Text style={[styles.prompt, { fontFamily: fontForText(exercise.prompt, 'bold') }]}>
-            <FavoriteWordText text={exercise.prompt} context={exercise.prompt} textStyle={styles.prompt} />
-          </Text>
+          <FavoriteWordText text={exercise.prompt} context={exercise.prompt} style={styles.promptText} textStyle={styles.prompt} />
         </View>
       </GlowCard>
       <View style={styles.choices}>
@@ -85,6 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.xs,
   },
+  promptText: { flex: 1 },
   prompt: {
     ...typography.heading,
     flex: 1,
