@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { semanticColors } from '@/constants/theme';
 import { addFavoriteWord } from '@/storage/favoriteWords';
 
-type Props = { text: string; meaning?: string; context?: string; style?: object; textStyle?: object };
+type Props = { text: string; meaning?: string; context?: string; style?: StyleProp<ViewStyle>; textStyle?: StyleProp<TextStyle> };
 
 export function FavoriteWordText({ text, meaning = '', context = '', style, textStyle }: Props) {
   const [saved, setSaved] = useState<string[]>([]);
