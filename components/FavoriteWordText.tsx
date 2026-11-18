@@ -8,19 +8,36 @@ type Props = { text: string; meaning?: string; context?: string; style?: StylePr
 export function FavoriteWordText({ text, meaning = '', context = '', style, textStyle }: Props) {
   const [saved, setSaved] = useState<string[]>([]);
   const parts = text.split(/([A-Za-z]+(?:['’-][A-Za-z]+)?)/g);
+
   return (
     <View style={[styles.wrap, style]}>
-      {parts.map((part, index) => /^[A-Za-z]+(?:['’-][A-Za-z]+)?$/.test(part) ? (
-        <Pressable key={index} onPress={async () => {
-          try {
-            await addFavoriteWord(part, meaning && parts.length === 1 ? meaning : '', context || text);
-            setSaved((items) => items.includes(part.toLowerCase()) ? items : [...items, part.toLowerCase()]);
-            Alert.alert('کلمه برگزیده', '«' + part + '» به کلمات برگزیده اضافه شد.');
-          } catch { Alert.alert('خطا', 'ذخیره کلمه انجام نشد.'); }
-        }} accessibilityRole="button" accessibilityLabel={'افزودن ' + part + ' به کلمات برگزیده'}>
-          <Text style={[textStyle, styles.word]}>{part}{saved.includes(part.toLowerCase()) ? ' ★' : ''}</Text>
-        </Pressable>
-      ) : <Text key={index} style={textStyle}>{part}</Text>) : <Text key={index} style={textStyle}>{part}</Text>)}
+      {parts.map((part, index) => {
+        const isWord = /^[A-Za-z]+(?:['’-][A-Za-z]+)?$/.test(part);
+        if (!isWord) {
+          return <Text key={index} style={textStyle}>{part}</Text>;
+        }
+
+        return (
+          <Pressable
+            key={index}
+            onPress={async () => {
+              try {
+                await addFavoriteWord(part, meaning && parts.length === 1 ? meaning : '', context || text);
+                setSaved((items) => items.includes(part.toLowerCase()) ? items : [...items, part.toLowerCase()]);
+                Alert.alert('کلمه برگزیده', '«' + part + '» به کلمات برگزیده اضافه شد.');
+              } catch {
+                Alert.alert('خطا', 'ذخیره کلمه انجام نشد.');
+              }
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={'افزودن ' + part + ' به کلمات برگزیده'}
+          >
+            <Text style={[textStyle, styles.word]}>
+              {part}{saved.includes(part.toLowerCase()) ? ' ★' : ''}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
