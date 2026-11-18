@@ -45,6 +45,7 @@ export default function RootLayout() {
           <Stack.Screen name="review" />
           <Stack.Screen name="assessment" />
           <Stack.Screen name="translator" />
+          <Stack.Screen name="favorite-words" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="light" />
