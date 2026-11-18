@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { BookOpen, Gift, Heart, Settings, Star, Trophy, Coins, Dumbbell, Languages, Star } from 'lucide-react-native';
+import { BookOpen, Gift, Heart, Settings, Star, Trophy, Coins, Dumbbell, Languages } from 'lucide-react-native';
 import { colors, fonts, semanticColors, spacing } from '@/constants/theme';
 import { useProfiles } from '@/context/ProfileContext';
 import { GradientBackground } from '@/components/ui/GradientBackground';
