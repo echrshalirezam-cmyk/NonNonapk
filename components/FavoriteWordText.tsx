@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Star } from 'lucide-react-native';
-import { semanticColors, fonts } from '@/constants/theme';
+import { semanticColors } from '@/constants/theme';
 import { addFavoriteWord } from '@/storage/favoriteWords';
 
 type Props = { text: string; meaning?: string; context?: string; style?: object; textStyle?: object };
@@ -21,7 +20,7 @@ export function FavoriteWordText({ text, meaning = '', context = '', style, text
         }} accessibilityRole="button" accessibilityLabel={'افزودن ' + part + ' به کلمات برگزیده'}>
           <Text style={[textStyle, styles.word]}>{part}{saved.includes(part.toLowerCase()) ? ' ★' : ''}</Text>
         </Pressable>
-      ) : <Text key={index} style={textStyle}>{part}</Text>) : null)}
+      ) : <Text key={index} style={textStyle}>{part}</Text>) : <Text key={index} style={textStyle}>{part}</Text>)}
     </View>
   );
 }
