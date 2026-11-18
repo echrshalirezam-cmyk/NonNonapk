@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts, radius, semanticColors, spacing } from '@/constants/theme';
 import { clearTranslationHistory, loadTranslationHistory, saveTranslationRecord, type TranslationDirection, type TranslationRecord } from '@/storage/translatorHistory';
 import { translateText } from '@/utils/translator';
+import { FavoriteWordText } from '@/components/FavoriteWordText';
 
 const MAX_INPUT_LENGTH = 5000;
 const errorText = (error: unknown) => error instanceof Error ? error.message : 'مشکلی پیش آمد. دوباره تلاش کنید.';
@@ -240,7 +241,7 @@ export default function TranslatorScreen() {
               </View>
             </View>
             {loading ? <View style={styles.loadingResult}><ActivityIndicator color={semanticColors.primary} /><Text style={styles.voiceHint}>در حال دریافت ترجمه...</Text></View> :
-              <Text selectable style={[styles.resultText, direction === 'fa-en' ? styles.englishText : styles.persianText, { textAlign: direction === 'fa-en' ? 'left' : 'right' }]}>{translatedText}</Text>}
+              <FavoriteWordText text={translatedText} context={sourceText} textStyle={[styles.resultText, direction === 'fa-en' ? styles.englishText : styles.persianText, { textAlign: direction === 'fa-en' ? 'left' : 'right' }]} />}
             <Text style={styles.savedNote}>متن اصلی و ترجمه پس از دریافت، خودکار در تاریخچه ذخیره می‌شوند.</Text>
           </View>
         )}
