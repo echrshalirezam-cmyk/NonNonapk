@@ -7,7 +7,6 @@ import { ChoiceButton, type ChoiceState } from '@/components/lessons/ChoiceButto
 import { SpeakButton } from '@/components/lessons/SpeakButton';
 import { useAudioSettings } from '@/hooks/useAudioSettings';
 import { speakText } from '@/utils/speech';
-import { fontForText } from '@/utils/fontForText';
 import { FavoriteWordText } from '@/components/FavoriteWordText';
 
 type ChoiceExerciseData = Extract<Exercise, { type: 'choice' | 'translation' }>;
